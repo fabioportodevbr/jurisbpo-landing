@@ -228,6 +228,38 @@
     .hub-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
     .res-grid { grid-template-columns:repeat(2,1fr); }
   }
+
+  /* Botão de navegação próximo slide */
+  .slide-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2.2rem;
+    padding: 11px 26px;
+    border-radius: 9px;
+    font-size: .88rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s, border-color .2s, transform .15s;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: .02em;
+  }
+  .slide-nav-btn.dark {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.35);
+    color: rgba(255,255,255,.85);
+  }
+  .slide-nav-btn.dark:hover { border-color: rgba(255,255,255,.7); color: #fff; transform: translateY(2px); }
+  .slide-nav-btn.light {
+    background: transparent;
+    border: 2px solid var(--g300);
+    color: var(--g700);
+  }
+  .slide-nav-btn.light:hover { border-color: var(--g600); color: var(--g900); transform: translateY(2px); }
+  .slide-nav-btn .arr { display:inline-block; transition: transform .2s; }
+  .slide-nav-btn:hover .arr { transform: translateY(3px); }
+
 </style>
 </head>
 <body>
@@ -251,7 +283,7 @@
       <h1 class="h1">Menos tempo<br>administrativo,<br><em>mais tempo<br>para advogar.</em></h1>
       <p class="lead">Uma plataforma que substitui até 6 sistemas, com integração nativa ao ecossistema jurídico brasileiro.</p>
       <div class="btns">
-        <a href="#" class="btn btn-p" id="hero-demo-btn">Agendar demonstração</a>
+        <a href="#s1" class="btn btn-g nav-next-btn" data-next="s1" style="background:transparent;border:2px solid rgba(255,255,255,.45);color:#fff;display:inline-flex;align-items:center;gap:8px;">Conheça mais <span style="font-size:1.1em;">↓</span></a>
       </div>
     </div>
     <div>
@@ -282,6 +314,8 @@
     <div class="stat-bar-txt">do tempo dos advogados é desperdiçado em tarefas puramente administrativas — tempo que poderia estar em estratégia e clientes.</div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s2" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 3 — PLATAFORMA HUB -->
@@ -353,6 +387,8 @@
     </div>
 </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s3" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 4 — PAINEL JURÍDICO -->
@@ -378,6 +414,8 @@
     </div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s4" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 5 — RELATÓRIOS -->
@@ -403,6 +441,8 @@
     </div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s5" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 6 — IA JURÍDICA -->
@@ -431,6 +471,8 @@
     </div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s6" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 7 — CONTRATOS -->
@@ -456,6 +498,8 @@
     </div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s7" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 8 — FINANCEIRO -->
@@ -481,6 +525,8 @@
     </div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s8" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 9 — PUSH E CLIPPINGS -->
@@ -506,6 +552,8 @@
     </div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s9" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 10 — RESULTADOS -->
@@ -522,6 +570,8 @@
     <div class="res-cell"><div class="res-num">R$0</div><div class="res-lbl">Para começar</div><div class="res-sub">plano gratuito, sem cartão</div></div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s10" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 11 — PARA QUEM -->
@@ -536,6 +586,8 @@
     <div class="persona-card"><div class="persona-av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M17 13l2 2 4-4"/></svg></div><h3>Advogado Autônomo</h3><p>Escritório organizado sem custo fixo. Comece grátis e cresça conforme sua demanda.</p></div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s11" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 12 — DIFERENCIAL -->
@@ -558,6 +610,8 @@
     </table>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s12" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 13 — PREÇOS -->
@@ -572,6 +626,8 @@
     <div class="price-card"><div class="price-plan">Corporativo</div><div class="price-val" style="font-size:1.35rem;line-height:1.3;">A partir de<br><span style="font-size:1.65rem;opacity:1;color:#fff;font-family:'Fraunces',serif;font-weight:600;">R$1.497</span><span style="font-size:.9rem;">/mês</span></div><div class="price-users">Usuários ilimitados</div><div class="price-desc">Compliance avançado para grandes operações.</div></div>
   </div>
 </div>
+
+<div style="text-align:center;padding:1.4rem 0 .6rem;"><a href="#s13" class="slide-nav-btn dark">Agendar demonstração <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 14 — CTA -->
