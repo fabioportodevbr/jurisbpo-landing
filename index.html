@@ -83,19 +83,23 @@
   .nav {
     position:fixed; top:0; left:0; right:0; z-index:100;
     background:rgba(15,31,23,0.93); backdrop-filter:blur(14px);
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 2.5rem; height:56px;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    padding:0 2rem; height:56px;
     border-bottom:1px solid rgba(255,255,255,0.07);
   }
-  .nav-logo { font-family:'Fraunces',serif; font-size:1.3rem; font-weight:600; color:var(--g300); letter-spacing:-.02em; }
-  .nav-dots { display:flex; gap:6px; align-items:center; }
-  .nav-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.18); border:none; cursor:pointer; transition:background .2s,transform .2s; padding:0; }
-  .nav-dot.active { background:var(--g400); transform:scale(1.35); }
-  .nav-cta { background:var(--g600); color:#fff; border:none; padding:8px 20px; border-radius:6px; font-size:.85rem; font-weight:600; cursor:pointer; text-decoration:none; transition:background .2s; font-family:'Nunito',sans-serif; }
+  .nav-logo { font-family:'Fraunces',serif; font-size:1.3rem; font-weight:600; color:var(--g300); letter-spacing:-.02em; flex-shrink:0; }
+  .nav-links { display:flex; align-items:center; justify-content:center; gap:clamp(5px,.72vw,10px); flex:1; min-width:0; overflow-x:auto; scrollbar-width:none; }
+  .nav-links::-webkit-scrollbar { display:none; }
+  .nav-link { position:relative; flex:0 0 auto; border:none; background:transparent; color:rgba(255,255,255,.48); cursor:pointer; text-decoration:none; font-family:'Nunito',sans-serif; font-size:.62rem; font-weight:700; letter-spacing:.06em; line-height:1; text-transform:uppercase; white-space:nowrap; padding:22px 0 20px; transition:color .2s,opacity .2s; }
+  .nav-link::after { content:''; position:absolute; left:0; right:0; bottom:12px; height:1px; background:var(--g400); transform:scaleX(0); transform-origin:left; transition:transform .2s; }
+  .nav-link:hover { color:rgba(255,255,255,.82); }
+  .nav-link.active { color:#fff; }
+  .nav-link.active::after { transform:scaleX(1); }
+  .nav-cta { background:var(--g600); color:#fff; border:none; padding:8px 20px; border-radius:6px; font-size:.85rem; font-weight:600; cursor:pointer; text-decoration:none; transition:background .2s; font-family:'Nunito',sans-serif; flex-shrink:0; }
   .nav-cta:hover { background:var(--g500); }
   .progress-bar { position:fixed; top:56px; left:0; height:2px; background:var(--g500); transition:width .1s; z-index:99; }
 
-  .slide { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:80px 2rem 60px; position:relative; overflow:hidden; }
+  .slide { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:80px 2rem 112px; position:relative; overflow:hidden; }
   .inner { max-width:1100px; width:100%; position:relative; z-index:2; }
 
   .eyebrow { font-size:.73rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--g600); margin-bottom:.85rem; font-family:'Nunito',sans-serif; }
@@ -221,6 +225,9 @@
   .cta-tagline { font-family:'Fraunces',serif; font-style:italic; font-size:.95rem; color:rgba(255,255,255,.28); font-weight:300; }
 
   @media(max-width:768px) {
+    .nav { padding:0 1rem; gap:1rem; }
+    .nav-links { justify-content:flex-start; }
+    .nav-cta { display:none; }
     .two-col,.two-col.reverse { grid-template-columns:1fr; }
     .persona-grid { grid-template-columns:repeat(2,1fr); }
     .price-grid { grid-template-columns:repeat(2,1fr); }
@@ -229,35 +236,59 @@
     .res-grid { grid-template-columns:repeat(2,1fr); }
   }
 
-  /* Botão de navegação próximo slide */
+  /* Navegação fluida entre slides */
+  .slide-nav {
+    position: absolute;
+    left: 50%;
+    bottom: 34px;
+    z-index: 4;
+    display: flex;
+    justify-content: flex-start;
+    width: min(100% - 2rem, 1100px);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
   .slide-nav-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 22px;
-    border-radius: 9px;
-    font-size: .85rem;
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: .72rem;
     font-weight: 700;
     cursor: pointer;
     text-decoration: none;
-    transition: opacity .2s, transform .15s;
+    text-transform: uppercase;
+    transition: color .2s, opacity .2s, transform .2s;
     font-family: 'Nunito', sans-serif;
-    letter-spacing: .02em;
+    letter-spacing: .16em;
+    pointer-events: auto;
+    opacity: .84;
   }
-  .slide-nav-btn.dark {
-    background: rgba(255,255,255,.15);
-    border: 1.5px solid rgba(255,255,255,.5);
+  .slide-nav-btn::before {
+    content: '';
+    width: 42px;
+    height: 1px;
+    background: currentColor;
+    opacity: .45;
+    transition: width .2s, opacity .2s;
+  }
+  .slide-nav-btn.dark { color: var(--g800); }
+  .slide-nav-btn.dark:hover { color: var(--g500); opacity: 1; transform: translateY(2px); }
+  .slide-nav-btn.light { color: rgba(255,255,255,.76); }
+  .slide-nav-btn.light:hover {
     color: #fff;
+    opacity: 1;
+    transform: translateY(2px);
   }
-  .slide-nav-btn.dark:hover { background: rgba(255,255,255,.25); transform: translateY(2px); }
-  .slide-nav-btn.light {
-    background: var(--g700);
-    border: 1.5px solid var(--g700);
-    color: #fff;
+  .slide-nav-btn:hover::before { width: 56px; opacity: .72; }
+  .slide-nav-btn .arr { display:inline-block; font-size:1rem; line-height:1; animation: scrollCue 1.8s ease-in-out infinite; }
+  .slide-nav-btn:hover .arr { animation-play-state: paused; transform: translateY(3px); }
+  @keyframes scrollCue {
+    0%, 100% { transform: translateY(-1px); opacity: .55; }
+    50% { transform: translateY(4px); opacity: 1; }
   }
-  .slide-nav-btn.light:hover { background: var(--g900); border-color: var(--g900); transform: translateY(2px); }
-  .slide-nav-btn .arr { display:inline-block; transition: transform .2s; }
-  .slide-nav-btn:hover .arr { transform: translateY(3px); }
 
 </style>
 </head>
@@ -267,8 +298,20 @@
 
 <nav class="nav">
   <div class="nav-logo">JurisBPO</div>
-  <div class="nav-dots" id="dots">
-    <button class="nav-dot  active" onclick="goTo(0)" title="Slide 1"></button><button class="nav-dot" onclick="goTo(1)" title="Slide 2"></button><button class="nav-dot" onclick="goTo(2)" title="Slide 3"></button><button class="nav-dot" onclick="goTo(3)" title="Slide 4"></button><button class="nav-dot" onclick="goTo(4)" title="Slide 5"></button><button class="nav-dot" onclick="goTo(5)" title="Slide 6"></button><button class="nav-dot" onclick="goTo(6)" title="Slide 7"></button><button class="nav-dot" onclick="goTo(7)" title="Slide 8"></button><button class="nav-dot" onclick="goTo(8)" title="Slide 9"></button><button class="nav-dot" onclick="goTo(9)" title="Slide 10"></button><button class="nav-dot" onclick="goTo(10)" title="Slide 11"></button><button class="nav-dot" onclick="goTo(11)" title="Slide 12"></button><button class="nav-dot" onclick="goTo(12)" title="Slide 13"></button><button class="nav-dot" onclick="goTo(13)" title="Slide 14"></button>
+  <div class="nav-links" id="section-nav" aria-label="Seções da apresentação">
+    <a class="nav-link active" href="#s1" data-slide="1">O problema</a>
+    <a class="nav-link" href="#s2" data-slide="2">A solução</a>
+    <a class="nav-link" href="#s3" data-slide="3">Painel</a>
+    <a class="nav-link" href="#s4" data-slide="4">Relatórios</a>
+    <a class="nav-link" href="#s5" data-slide="5">IA</a>
+    <a class="nav-link" href="#s6" data-slide="6">Contratos</a>
+    <a class="nav-link" href="#s7" data-slide="7">Financeiro</a>
+    <a class="nav-link" href="#s8" data-slide="8">Alertas</a>
+    <a class="nav-link" href="#s9" data-slide="9">Resultados</a>
+    <a class="nav-link" href="#s10" data-slide="10">Público</a>
+    <a class="nav-link" href="#s11" data-slide="11">Diferencial</a>
+    <a class="nav-link" href="#s12" data-slide="12">Planos</a>
+    <a class="nav-link" href="#s13" data-slide="13">Demonstração</a>
   </div>
   <a href="https://app.jurisbpo.com.br" class="nav-cta">Acessar a plataforma</a>
 </nav>
@@ -281,9 +324,6 @@
       <p class="eyebrow light">Gestão Jurídica Inteligente</p>
       <h1 class="h1">Menos tempo<br>administrativo,<br><em>mais tempo<br>para advogar.</em></h1>
       <p class="lead">Uma plataforma que substitui até 6 sistemas, com integração nativa ao ecossistema jurídico brasileiro.</p>
-      <div class="btns">
-        <a href="#s1" class="btn btn-g nav-next-btn" data-next="s1" style="background:transparent;border:2px solid rgba(255,255,255,.45);color:#fff;display:inline-flex;align-items:center;gap:8px;">Conheça mais <span style="font-size:1.1em;">↓</span></a>
-      </div>
     </div>
     <div>
       <div class="laptop-wrap">
@@ -295,6 +335,7 @@
     </div>
   </div>
 </div>
+<div class="slide-nav"><a href="#s1" class="slide-nav-btn light nav-next-btn" data-next="s1">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 2 — PROBLEMA -->
@@ -314,7 +355,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s2" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s2" class="slide-nav-btn dark">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 3 — PLATAFORMA HUB -->
@@ -387,7 +428,7 @@
 </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s3" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s3" class="slide-nav-btn light">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 4 — PAINEL JURÍDICO -->
@@ -414,7 +455,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s4" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s4" class="slide-nav-btn dark">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 5 — RELATÓRIOS -->
@@ -441,7 +482,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s5" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s5" class="slide-nav-btn light">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 6 — IA JURÍDICA -->
@@ -471,7 +512,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s6" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s6" class="slide-nav-btn dark">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 7 — CONTRATOS -->
@@ -498,7 +539,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s7" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s7" class="slide-nav-btn light">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 8 — FINANCEIRO -->
@@ -525,7 +566,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s8" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s8" class="slide-nav-btn dark">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 9 — PUSH E CLIPPINGS -->
@@ -552,7 +593,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s9" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s9" class="slide-nav-btn light">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 10 — RESULTADOS -->
@@ -570,7 +611,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s10" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s10" class="slide-nav-btn light">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 11 — PARA QUEM -->
@@ -586,7 +627,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s11" class="slide-nav-btn dark">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s11" class="slide-nav-btn dark">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 12 — DIFERENCIAL -->
@@ -610,7 +651,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s12" class="slide-nav-btn light">Próximo <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s12" class="slide-nav-btn dark">Continuar <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 13 — PREÇOS -->
@@ -626,7 +667,7 @@
   </div>
 </div>
 
-<div style="text-align:left;padding:2rem 0 .4rem;"><a href="#s13" class="slide-nav-btn dark">Agendar demonstração <span class="arr">↓</span></a></div>
+<div class="slide-nav"><a href="#s13" class="slide-nav-btn light">Agendar demonstração <span class="arr">↓</span></a></div>
 </section>
 
 <!-- 14 — CTA -->
@@ -641,8 +682,8 @@
 </section>
 
 <script>
-  const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.nav-dot'),pb=document.getElementById('pb');
-  function upd(){const sy=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;pb.style.width=Math.round(sy/dh*100)+'%';let c=0;slides.forEach((s,i)=>{if(s.getBoundingClientRect().top<=window.innerHeight*.45)c=i;});dots.forEach((d,i)=>d.classList.toggle('active',i===c));}
+  const slides=document.querySelectorAll('.slide'),navLinks=document.querySelectorAll('.nav-link'),pb=document.getElementById('pb');
+  function upd(){const sy=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;pb.style.width=Math.round(sy/dh*100)+'%';let c=0;slides.forEach((s,i)=>{if(s.getBoundingClientRect().top<=window.innerHeight*.45)c=i;});navLinks.forEach(l=>l.classList.toggle('active',Number(l.dataset.slide)===Math.max(c,1)));const a=document.querySelector('.nav-link.active'),n=document.querySelector('.nav-links');if(a&&n){const ar=a.getBoundingClientRect(),nr=n.getBoundingClientRect();if(ar.left<nr.left||ar.right>nr.right)a.scrollIntoView({block:'nearest',inline:'center'});}}
   function goTo(i){slides[i].scrollIntoView({behavior:'smooth'});}
   window.addEventListener('scroll',upd,{passive:true});upd();
   const robs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)';}});},{threshold:.25});
